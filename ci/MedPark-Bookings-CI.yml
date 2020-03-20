@@ -60,7 +60,7 @@ steps:
   displayName: 'Generate DB migration script for MedPark.Bookings'
   inputs:
     script: 'dotnet ef migrations script --project $(proj-dir)/MedPark.Bookings.csproj -i -o $(build.artifactstagingdirectory)/sql/MedPark.Bookings_DB_Migrations.sql -v --Configuration Release --no-build'
-  enabled: true
+  enabled: false
 
 - task: Docker@2
   condition: and(succeeded(), or(eq(variables['build.SourceBranch'], 'refs/heads/dev'), eq(variables['build.SourceBranch'], 'refs/heads/master')))
@@ -68,7 +68,7 @@ steps:
   inputs:
     containerRegistry: 'docker-hub-connection'
     command: 'login'
-  enabled: false
+  enabled: true
 
 - powershell: |
     $currentBranch = "$(build.SourceBranch)"
