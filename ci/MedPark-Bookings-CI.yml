@@ -59,7 +59,7 @@ steps:
 - task: CmdLine@2
   displayName: 'Generate DB migration script for MedPark.Bookings'
   inputs:
-    script: 'dotnet ef migrations script --project $(proj-dir)/MedPark.Bookings.csproj -i -o $(build.artifactstagingdirectory)/sql/MedPark.Bookings_DB_Migrations.sql -v'
+    script: 'dotnet ef migrations script --project $(proj-dir)/MedPark.Bookings.csproj -i -o $(build.artifactstagingdirectory)/sql/MedPark.Bookings_DB_Migrations.sql -v --Configuration Release'
   enabled: true
 
 - task: Docker@2
