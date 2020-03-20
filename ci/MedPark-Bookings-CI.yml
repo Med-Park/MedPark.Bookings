@@ -86,7 +86,7 @@ steps:
   enabled: true
 
 - task: Docker@2
-  displayName: 'Build and Push docker image'
+  displayName: 'Build & Push Docker image'
   condition: and(succeeded(), or(eq(variables['build.SourceBranch'], 'refs/heads/dev'), eq(variables['build.SourceBranch'], 'refs/heads/master')))
   inputs:
     containerRegistry: 'docker-hub-connection'
