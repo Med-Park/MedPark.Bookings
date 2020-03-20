@@ -48,18 +48,18 @@ steps:
     script: 'dotnet tool install --global dotnet-ef'
   enabled: true
 
-- task: CmdLine@2
-  displayName: 'Generate DB migration script for MedPark.Bookings'
-  inputs:
-    script: 'dotnet ef migrations script --project $(proj-dir)/MedPark.Bookings.csproj -i -o $(build.artifactstagingdirectory)/sql/MedPark.Bookings_DB_Migrations.sql'
-  enabled: true
-
 - task: DotNetCoreCLI@2
   displayName: 'Build project'
   inputs:
     command: 'build'
     projects: '$(proj-dir)/MedPark.Bookings.csproj'
     arguments: '-c Release'
+  enabled: true
+
+- task: CmdLine@2
+  displayName: 'Generate DB migration script for MedPark.Bookings'
+  inputs:
+    script: 'dotnet ef migrations script --project $(proj-dir)/MedPark.Bookings.csproj -i -o $(build.artifactstagingdirectory)/sql/MedPark.Bookings_DB_Migrations.sql'
   enabled: true
 
 - task: Docker@2
