@@ -68,7 +68,7 @@ steps:
   inputs:
     containerRegistry: 'docker-hub-connection'
     command: 'login'
-  enabled: true
+  enabled: false
 
 - powershell: |
     $currentBranch = "$(build.SourceBranch)"
