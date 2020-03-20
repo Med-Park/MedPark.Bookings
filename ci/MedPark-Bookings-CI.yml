@@ -21,7 +21,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  proj-dir: "src/MedPark.Bookings.csproj"
+  proj-dir: "src"
   imageTag: ''
 
 steps:
@@ -59,7 +59,7 @@ steps:
 - task: CmdLine@2
   displayName: 'Generate DB migration script for MedPark.Bookings'
   inputs:
-    script: 'dotnet ef migrations script --project $(proj-dir) -i -o $(build.artifactstagingdirectory)/sql/MedPark.Bookings_DB_Migrations.sql'
+    script: 'dotnet ef migrations script --project $(proj-dir)/MedPark.Bookings.csproj -i -o $(build.artifactstagingdirectory)/sql/MedPark.Bookings_DB_Migrations.sql'
   enabled: true
 
 - task: Docker@2
