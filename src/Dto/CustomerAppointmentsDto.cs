@@ -7,12 +7,11 @@ namespace MedPark.Bookings.Dto
 {
     public class CustomerAppointmentsDto
     {
-        public CustomerDto PatientDetails { get; set; }
-        public IEnumerable<AppointmentDto> BookingDetails { get; set; }
+        public List<AppointmentDto> BookingDetails { get; set; }
 
         public CustomerAppointmentsDto()
         {
-            PatientDetails = new CustomerDto();
+            BookingDetails = new List<AppointmentDto>();
         }
     }
 }

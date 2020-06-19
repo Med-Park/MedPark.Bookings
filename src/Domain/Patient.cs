@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedPark.Bookings.Domain
 {
-    public class Customer : BaseIdentifiable
+    public class Patient : BaseIdentifiable
     {
-        public Customer(Guid id) : base(id)
+        public Patient(Guid id) : base(id)
         {
 
         }

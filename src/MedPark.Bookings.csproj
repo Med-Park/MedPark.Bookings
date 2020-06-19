@@ -17,4 +17,8 @@
     <PackageReference Include="MedPark.Common" Version="1.7.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\MedPark.Common\src\MedPark.Common.csproj" />
+  </ItemGroup>
+
 </Project>

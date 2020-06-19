@@ -1,6 +1,7 @@
-@apiUrl = https://localhost:44308/api/bookings/
-@patientId = ""
-@specialistId = ""
+@apiUrl = https://localhost:44308/api/bookings
+@patientId = CF223568-14AA-4ED4-A38C-801F8D1F5517
+@specialistId = 4B4E5886-2BE0-40D9-9DBF-96ED5722CF52
+@patientMedicalScheme = 8546D1F4-3400-4407-BB7B-F1346C234CDB
 
 
 ### Get Patient appointments
@@ -14,16 +15,16 @@ GET {{apiUrl}}/getspecialistappointments/{{specialistId}}
 
 ### Schedule new appointment
 POST {{apiUrl}}/addappointment
-
 Content-Type: application/json
+
 {
   "appointmentId": "00000000-0000-0000-0000-000000000000",
-  "patientId": "{{patientId}}",
+  "patientId":  "{{patientId}}",
   "specialistId": "{{specialistId}}",
-  "appointmentType": "00000000-0000-0000-0000-000000000000",
-  "medicalAidMembershipNo": null,
-  "scheduledDate": "0001-01-01T00:00:00",
-  "isPostponement": false
+  "scheduledDate": "2020-07-01T11:00:00.481Z",
+  "isPostponement": false,
+  "comment": "Testing",
+  "medicalScheme": "{{patientMedicalScheme}}"
 }
 
 

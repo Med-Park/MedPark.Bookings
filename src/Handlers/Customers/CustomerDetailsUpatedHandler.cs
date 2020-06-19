@@ -13,16 +13,16 @@ namespace MedPark.Bookings.Handlers.Customers
 {
     public class CustomerDetailsUpatedHandler : IEventHandler<CustomerDetailsUpated>
     {
-        private IMedParkRepository<Customer> _customer { get; }
+        private IMedParkRepository<Patient> _customer { get; }
 
-        public CustomerDetailsUpatedHandler(IMedParkRepository<Customer> customer)
+        public CustomerDetailsUpatedHandler(IMedParkRepository<Patient> customer)
         {
             _customer = customer;
         }
 
         public async Task HandleAsync(CustomerDetailsUpated @event, ICorrelationContext context)
         {
-            Customer cust = await _customer.GetAsync(@event.Id);
+            Patient cust = await _customer.GetAsync(@event.Id);
 
             if (cust == null)
                 throw new MedParkException("", "");

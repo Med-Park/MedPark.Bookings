@@ -18,17 +18,19 @@ namespace MedPark.Bookings.Handlers.Bookings
     {
         private IMedParkRepository<Appointment> _appRepo { get; }
         private IMedParkRepository<Specialist> _specialistRepo { get; }
+        private IMedParkRepository<MedicalScheme> _medicalSchemes { get; }
 
         private IMapper _mapper { get; }
 
         private ISpecialistService _specialistServ { get; }
 
-        public AppointmentDetailQueryHandler(IMedParkRepository<Appointment> appRepo, IMapper mapper, IMedParkRepository<Specialist> specialistRepo, ISpecialistService specialistServ)
+        public AppointmentDetailQueryHandler(IMedParkRepository<Appointment> appRepo, IMapper mapper, IMedParkRepository<Specialist> specialistRepo, ISpecialistService specialistServ, IMedParkRepository<MedicalScheme> medicalSchemes)
         {
             _appRepo = appRepo;
             _specialistRepo = specialistRepo;
             _mapper = mapper;
             _specialistServ = specialistServ;
+            _medicalSchemes = medicalSchemes;
         }
 
         public async Task<AppointmentDetailDto> HandleAsync(AppointmentDetailQuery query)
@@ -48,7 +50,6 @@ namespace MedPark.Bookings.Handlers.Bookings
 
             PracticeDto practDetails = await _specialistServ.GetPracticeDetails(specialist.PracticeId);
             PracticeAddressDTO practiceAddr = await _specialistServ.GetSpecialistAddress(specialist.PracticeId);
-            SpecialistAppointmentTypesDTO appType = await _specialistServ.GetAppointmentTypeDetails(app.AppointmentType);
 
             result = _mapper.Map<AppointmentDetailDto>(app);
 
@@ -57,17 +58,15 @@ namespace MedPark.Bookings.Handlers.Bookings
             result.SpecialistName = specialist.FirstName + " " + specialist.Surname;
             result.SpecialistTitle = specialist.Title;
 
-            result.AppointmentType = (appType.TypesLinkedToSpecilaist.Count > 0 ? appType.TypesLinkedToSpecilaist.FirstOrDefault().Name : "");
-
             //Get Medcical scheme details for appointment
             AcceptedMedicalSchemeDTO scheme;
-            if (app.HasMedicalAid)
-            {
-                scheme = await _specialistServ.GetSchemeById(app.MedicalScheme.Value);
+            //if (app.HasMedicalAid)
+            //{
+            //    scheme = await _specialistServ.GetSchemeById(app.MedicalScheme.Value);
 
-                result.MedicalScheme = scheme.SchemeName;
-                result.MedicalAidMembershipNo = app.MedicalAidMembershipNo;
-            }
+            //    result.MedicalScheme = scheme.SchemeName;
+            //    result.MedicalAidMembershipNo = app.MedicalAidMembershipNo;
+            //}
 
             return result;
         }

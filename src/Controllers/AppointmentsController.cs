@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MedPark.Bookings.Dto;
 using MedPark.Bookings.Queries;
+using MedPark.Common;
+using MedPark.Common.Cache;
 using MedPark.Common.Dispatchers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,11 +24,12 @@ namespace MedPark.Bookings.Controllers
         }
 
         [HttpGet("getspecialistappointments/{specialistid}")]
-        public async Task<IActionResult> GetSpecialistAppointments([FromRoute] AppointmentQuery query)
+        [Cached(Constants.HalfHour_In_Seconds)]
+        public async Task<IActionResult> GetSpecialistAppointments([FromRoute] SpecialistAppointmentQuery query)
         {
             try
             {
-                SpecialistAppointmentsDto bookings = await _dispatcher.QueryAsync<SpecialistAppointmentsDto>(query);
+                SpecialistAppointmentsDto bookings = await _dispatcher.QueryAsync(query);
 
                 return Ok(bookings);
             }
@@ -37,11 +40,12 @@ namespace MedPark.Bookings.Controllers
         }
 
         [HttpGet("getpatientappointments/{customerid}")]
-        public async Task<IActionResult> GetCustomerAppointments([FromRoute] AppointmentQuery query)
+        [Cached(Constants.Day_In_Seconds)]
+        public async Task<IActionResult> GetCustomerAppointments([FromRoute] CustomerAppointmentQuery query)
         {
             try
             {
-                CustomerAppointmentsDto patientBookings = await _dispatcher.QueryAsync<CustomerAppointmentsDto>(query);
+                CustomerAppointmentsDto patientBookings = await _dispatcher.QueryAsync(query);
 
                 return Ok(patientBookings);
             }
@@ -52,6 +56,7 @@ namespace MedPark.Bookings.Controllers
         }
 
         [HttpGet("{appointmentid}/details")]
+        [Cached(Constants.Day_In_Seconds)]
         public async Task<IActionResult> GetCustomerAppointments([FromRoute] AppointmentDetailQuery query)
         {
             try

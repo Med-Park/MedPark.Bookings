@@ -12,8 +12,8 @@ namespace MedPark.Bookings.Mappings
     {
         public BookingServiceMappings()
         {
-            CreateMap<Customer, CustomerDto>();
-            CreateMap<Customer, SpecialistAppointmentDto>();
+            CreateMap<Patient, CustomerDto>();
+            CreateMap<Patient, SpecialistAppointmentDto>();
 
             CreateMap<Appointment, AppointmentDto>();
             CreateMap<Specialist, SpecialistDto>();

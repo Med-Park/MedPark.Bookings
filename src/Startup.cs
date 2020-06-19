@@ -27,6 +27,7 @@ using MedPark.Bookings.Services;
 using MedPark.Common.RestEase;
 using System.Reflection;
 using Microsoft.Extensions.Hosting;
+using MedPark.Common.Redis;
 
 namespace MedPark.Bookings
 {
@@ -44,6 +45,7 @@ namespace MedPark.Bookings
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
+            services.AddRedis(Configuration);
 
             //Add DBContext
             services.AddDbContext<MedParkBookingContext>(options => options.UseSqlServer(Configuration["Database:ConnectionString"]));
@@ -57,9 +59,10 @@ namespace MedPark.Bookings
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly()).AsImplementedInterfaces();
             builder.AddDispatchers();
             builder.AddRabbitMq();
-            builder.AddRepository<Customer>();
+            builder.AddRepository<Patient>();
             builder.AddRepository<Specialist>();
             builder.AddRepository<Appointment>();
+            builder.AddRepository<PatientMedicalScheme>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +85,7 @@ namespace MedPark.Bookings
                 .SubscribeEvent<SpecialistSignedUp>(@namespace: "identity")
                 .SubscribeEvent<CustomerCreated>(@namespace: "customers")
                 .SubscribeEvent<CustomerDetailsUpated>(@namespace: "customers")
+                .SubscribeEvent<CustomerMedicalSchemeAdded>(@namespace: "customers")
                 .SubscribeEvent<SpecialistDetailsUpdated>(@namespace: "medical-practice");
 
             app.UseMvcWithDefaultRoute();

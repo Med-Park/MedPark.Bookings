@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace MedPark.Bookings.Queries
 {
-    public class AppointmentQuery : IQuery<CustomerAppointmentsDto>, IQuery<SpecialistAppointmentsDto>
+    public class SpecialistAppointmentQuery : IQuery<SpecialistAppointmentsDto>
     {
-        public Guid CustomerId { get; set; }
         public Guid SpecialistId { get; set; }
     }
 }

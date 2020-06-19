@@ -15,23 +15,8 @@ namespace MedPark.Bookings.Domain
         }
 
         public Guid PatientId { get; private set; }
-        public string PatientName { get; private set; }
-        public string PatientSurname { get; private set; }
-        public string PatientEmail { get; private set; }
-        public string PatientMobile { get; private set; }
-
         public Guid SpecialistId { get; private set; }
-        public string Title { get; private set; }
-        public string SpecialistInitials { get; private set; }
-        public string SpecialistSurname { get; private set; }
-        public string SpecialistTel { get; private set; }
-        public string SpecialistEmail { get; private set; }
-
-        public Guid AppointmentType { get; private set; }
-
-        public Guid? MedicalScheme { get; private set; }
-        public bool HasMedicalAid { get; private set; }
-        public string MedicalAidMembershipNo { get; private set; }
+        public Guid? PatientMedicalSchemeId { get; private set; }
 
         public DateTime ScheduledDate { get; private set; }
         public bool IsPostponement { get; private set; }
@@ -41,26 +26,16 @@ namespace MedPark.Bookings.Domain
 
         public void SetPatientDetails(string name, string surname, string mobile, string email, Guid patientId)
         {
-            PatientName = name;
-            PatientSurname = surname;
-            PatientEmail = email;
-            PatientMobile = mobile;
             PatientId = patientId;
         }
 
-        public void SetSpecialistDetails(string specialistTitle, string specialistInitials, string specialistSurname, string specialistTel, string specialistEmail, Guid specialistId)
+        public void SetSpecialistDetails(Guid specialistId)
         {
-            Title = specialistTitle;
-            SpecialistInitials = specialistInitials;
-            SpecialistSurname = specialistSurname;
-            SpecialistTel = specialistTel;
-            SpecialistEmail = specialistEmail;
             SpecialistId = specialistId;
         }
 
-        public void SetAppointmentDetails(Guid appType, DateTime date, bool isPostponetment)
+        public void SetAppointmentDetails(DateTime date, bool isPostponetment)
         {
-            AppointmentType = appType;
             ScheduledDate = date;
             IsPostponement = IsPostponement;
         }
@@ -70,14 +45,10 @@ namespace MedPark.Bookings.Domain
             Comment = comment;
         }
 
-        public void SetMedicalScheme(Guid medScheme, string medSchemeNo)
+        public void SetMedicalScheme(Guid medSchemeId)
         {
-            MedicalScheme = medScheme;
-            MedicalAidMembershipNo = medSchemeNo;
-            HasMedicalAid = (!string.IsNullOrEmpty(medSchemeNo) ? true : false);
+            PatientMedicalSchemeId = medSchemeId;
         }
-
-
 
         public override void Use()
         {

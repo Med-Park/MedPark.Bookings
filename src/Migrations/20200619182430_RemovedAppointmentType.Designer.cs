@@ -4,14 +4,16 @@ using MedPark.Bookings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedPark.Bookings.Migrations
 {
     [DbContext(typeof(MedParkBookingContext))]
-    partial class MedParkBookingContextModelSnapshot : ModelSnapshot
+    [Migration("20200619182430_RemovedAppointmentType")]
+    partial class RemovedAppointmentType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

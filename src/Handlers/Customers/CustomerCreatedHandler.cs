@@ -12,16 +12,16 @@ namespace MedPark.Bookings.Handlers
 {
     public class CustomerCreatedHandler : IEventHandler<CustomerCreated>
     {
-        private IMedParkRepository<Customer> _customerRepo { get; }
+        private IMedParkRepository<Patient> _customerRepo { get; }
 
-        public CustomerCreatedHandler(IMedParkRepository<Customer> customerRepo)
+        public CustomerCreatedHandler(IMedParkRepository<Patient> customerRepo)
         {
             _customerRepo = customerRepo;
         }
 
         public async Task HandleAsync(CustomerCreated @event, ICorrelationContext context)
         {
-            Customer customer = new Customer(@event.UserId);
+            Patient customer = new Patient(@event.UserId);
 
             customer.Create(@event.FirstName, @event.Mobile, @event.LastName, @event.Email);
 
