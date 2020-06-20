@@ -28,7 +28,6 @@ namespace MedPark.Bookings
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory())
                     .UseIISIntegration()
                     .UseStartup<Startup>();
-                });
-                //.UseLogging();
+                }).UseLogging();
     }
 }
