@@ -14,11 +14,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.1" />
     <PackageReference Include="Autofac" Version="4.9.3" />
     <PackageReference Include="RestEase" Version="1.4.10" />
-    <PackageReference Include="MedPark.Common" Version="1.7.6" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <ProjectReference Include="..\..\MedPark.Common\src\MedPark.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="MedPark.Common" Version="*" />
   </ItemGroup>
 
 </Project>
