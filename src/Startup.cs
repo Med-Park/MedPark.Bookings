@@ -28,6 +28,8 @@ using MedPark.Common.RestEase;
 using System.Reflection;
 using Microsoft.Extensions.Hosting;
 using MedPark.Common.Redis;
+using MedPark.Common.Consul;
+using Consul;
 
 namespace MedPark.Bookings
 {
@@ -44,8 +46,10 @@ namespace MedPark.Bookings
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
             services.AddAutoMapper(typeof(Startup));
             services.AddRedis(Configuration);
+            services.AddConsul();
 
             //Add DBContext
             services.AddDbContext<MedParkBookingContext>(options => options.UseSqlServer(Configuration["Database:ConnectionString"]));
@@ -66,7 +70,7 @@ namespace MedPark.Bookings
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env, IHostApplicationLifetime lifetime, IConsulClient consulClient)
         {
             if (env.IsDevelopment())
             {
@@ -80,6 +84,12 @@ namespace MedPark.Bookings
 
             app.UseHttpsRedirection();
 
+            app.UseRouting();
+            app.UseEndpoints(endpoit =>
+            {
+                endpoit.MapHealthChecks("/health");
+            });
+
             app.UseRabbitMq()
                 .SubscribeCommand<AddAppointment>()
                 .SubscribeEvent<SpecialistSignedUp>(@namespace: "identity")
@@ -87,6 +97,12 @@ namespace MedPark.Bookings
                 .SubscribeEvent<CustomerDetailsUpated>(@namespace: "customers")
                 .SubscribeEvent<CustomerMedicalSchemeAdded>(@namespace: "customers")
                 .SubscribeEvent<SpecialistDetailsUpdated>(@namespace: "medical-practice");
+
+            var serviceID = app.UseConsul();
+            lifetime.ApplicationStopped.Register(() =>
+            {
+                consulClient.Agent.ServiceDeregister(serviceID);
+            });
 
             app.UseMvcWithDefaultRoute();
         }
